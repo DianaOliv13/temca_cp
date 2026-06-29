@@ -88,11 +88,16 @@ class ProveedorController extends Controller
     {
         try {
 
-            $proveedor->delete();
+            $idAntesDeEliminar = $proveedor->id_proveedor;
+            $existeAntes = Proveedor::where('id_proveedor', $idAntesDeEliminar)->exists();
+
+            $resultado = $proveedor->delete();
+
+            $existeDespues = Proveedor::where('id_proveedor', $idAntesDeEliminar)->exists();
 
             return redirect()
                 ->route('proveedores.index')
-                ->with('success', 'Proveedor eliminado correctamente.');
+                ->with('error', "DEBUG: id={$idAntesDeEliminar} | existeAntes=" . ($existeAntes ? 'SI' : 'NO') . " | resultado_delete=" . var_export($resultado, true) . " | existeDespues=" . ($existeDespues ? 'SI' : 'NO') . " | connection=" . $proveedor->getConnectionName());
 
         } catch (\Exception $e) {
 
