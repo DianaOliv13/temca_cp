@@ -24,7 +24,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])
         ->name('dashboard');
 
-    Route::resource('proveedores', ProveedorController::class);
+    Route::resource('proveedores', ProveedorController::class)
+        ->parameters([
+            'proveedores' => 'proveedor'
+        ]);
 
     Route::resource('materiales', MaterialController::class)
         ->parameters([

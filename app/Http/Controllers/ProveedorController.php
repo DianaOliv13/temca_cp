@@ -88,22 +88,17 @@ class ProveedorController extends Controller
     {
         try {
 
-            $idAntesDeEliminar = $proveedor->id_proveedor;
-            $existeAntes = Proveedor::where('id_proveedor', $idAntesDeEliminar)->exists();
-
-            $resultado = $proveedor->delete();
-
-            $existeDespues = Proveedor::where('id_proveedor', $idAntesDeEliminar)->exists();
+            $proveedor->delete();
 
             return redirect()
                 ->route('proveedores.index')
-                ->with('error', "DEBUG: id={$idAntesDeEliminar} | existeAntes=" . ($existeAntes ? 'SI' : 'NO') . " | resultado_delete=" . var_export($resultado, true) . " | existeDespues=" . ($existeDespues ? 'SI' : 'NO') . " | connection=" . $proveedor->getConnectionName());
+                ->with('success', 'Proveedor eliminado correctamente.');
 
         } catch (\Exception $e) {
 
             return redirect()
                 ->route('proveedores.index')
-                ->with('error', 'DEBUG: ' . $e->getMessage());
+                ->with('error', 'No se puede eliminar este proveedor porque tiene materiales asociados.');
 
         }
     }
