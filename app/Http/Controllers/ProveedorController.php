@@ -98,7 +98,7 @@ class ProveedorController extends Controller
 
             return redirect()
                 ->route('proveedores.index')
-                ->with('error', 'No se puede eliminar este proveedor porque tiene materiales asociados.');
+                ->with('error', 'DEBUG: ' . $e->getMessage());
 
         }
     }
